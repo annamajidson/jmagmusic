@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeff Magidson — Guitarist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0807;
+            --text: #f0e8dc;
+            --muted: #666;
+            --accent: #c49030;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ─────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 52px;
+        }
+
+        .nav-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.18em;
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; }
+
+        /* ── HERO ────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 640px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('Jeff Jazz Hall 1.jpg') center center / cover no-repeat;
+            transform: scale(1.06);
+            transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: grayscale(15%);
+        }
+
+        .hero-bg.loaded { transform: scale(1); }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                160deg,
+                rgba(10, 8, 7, 0.15) 0%,
+                rgba(10, 8, 7, 0.05) 30%,
+                rgba(10, 8, 7, 0.60) 72%,
+                rgba(10, 8, 7, 0.97) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 52px 68px;
+            width: 100%;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+            opacity: 0;
+            animation: fadeUp 1s 0.4s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(72px, 11vw, 148px);
+            line-height: 0.88;
+            letter-spacing: 0.025em;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 1s 0.65s forwards;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 36px;
+            right: 52px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: 0;
+            animation: fadeIn 1s 1.5s forwards;
+        }
+
+        .hero-scroll::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 44px;
+            background: var(--muted);
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse   { 0%,100%{opacity:.25} 50%{opacity:.8} }
+        @keyframes fadeUp  { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+
+        /* ── ABOUT ───────────────────────────────────────── */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 88vh;
+        }
+
+        .about-image {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.9s ease;
+        }
+
+        .about-image:hover img { transform: scale(1.04); }
+
+        .about-text {
+            padding: 96px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 28px;
+        }
+
+        .section-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(38px, 4.5vw, 62px);
+            line-height: 0.95;
+            letter-spacing: 0.025em;
+            margin-bottom: 40px;
+        }
+
+        .bio p {
+            font-size: 0.9rem;
+            line-height: 1.9;
+            color: rgba(240, 232, 220, 0.72);
+            margin-bottom: 22px;
+        }
+
+        .bio p:last-child { margin-bottom: 0; }
+
+        /* ── GALLERY ─────────────────────────────────────── */
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.88);
+            transition: transform 0.7s ease, filter 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.04);
+            filter: brightness(1);
+        }
+
+        /* ── PLAYLIST ────────────────────────────────────── */
+        .playlist {
+            padding: 100px 52px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #080605;
+        }
+
+        .playlist iframe {
+            width: 100%;
+            max-width: 660px;
+            border-radius: 12px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ── BOOKS ───────────────────────────────────────── */
+        .books {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 70vh;
+        }
+
+        .books-text {
+            padding: 96px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .books-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 64px 56px;
+            background: #0f0c09;
+        }
+
+        .books-image img {
+            max-height: 520px;
+            max-width: 100%;
+            object-fit: contain;
+            display: block;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+            transition: transform 0.6s ease;
+        }
+
+        .books-image img:hover { transform: translateY(-6px); }
+
+        .book-subtitle {
+            font-size: 0.82rem;
+            line-height: 1.8;
+            color: rgba(240, 232, 220, 0.65);
+            margin-bottom: 36px;
+        }
+
+        .book-btn {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 14px 40px;
+            border: 1px solid rgba(240, 232, 220, 0.35);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: background 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        .book-btn:hover {
+            background: var(--text);
+            border-color: var(--text);
+            color: var(--bg);
+        }
+
+        /* ── MUSIC ───────────────────────────────────────── */
+        .music {
+            padding: 120px 52px;
+            text-align: center;
+            background: #080605;
+        }
+
+        .video-wrap {
+            margin: 56px auto 0;
+            max-width: 800px;
+            position: relative;
+            display: block;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .video-wrap img {
+            width: 100%;
+            display: block;
+        }
+
+        .video-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.25);
+            transition: background 0.2s;
+        }
+
+        .video-wrap:hover .video-play { background: rgba(0,0,0,0.45); }
+
+        .video-play svg {
+            width: 72px;
+            height: 72px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        }
+
+        .groups {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px 48px;
+            margin-top: 52px;
+        }
+
+        .group-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(22px, 2.8vw, 36px);
+            letter-spacing: 0.08em;
+            color: var(--text);
+            opacity: 0.75;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        a.group-item:hover { opacity: 1; }
+
+        .group-item:not(:last-child)::after {
+            content: '·';
+            margin-left: 48px;
+            opacity: 0.3;
+        }
+
+        /* ── CONTACT ─────────────────────────────────────── */
+        .contact {
+            padding: 136px 52px;
+            text-align: center;
+        }
+
+        .contact-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 7vw, 100px);
+            letter-spacing: 0.03em;
+            line-height: 1;
+            margin-bottom: 56px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 18px 56px;
+            border: 1px solid rgba(240, 232, 220, 0.38);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            transition: background 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: var(--text);
+            border-color: var(--text);
+            color: var(--bg);
+        }
+
+        /* ── PORTRAIT ────────────────────────────────────── */
+        .portrait-feature {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 52px;
+            background: var(--bg);
+        }
+
+        .portrait-feature img {
+            display: block;
+            height: 85vh;
+            width: auto;
+            max-width: 100%;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ── FOOTER ──────────────────────────────────────── */
+        footer {
+            padding: 36px 52px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        footer p {
+            font-size: 0.68rem;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+        }
+
+        footer a {
+            font-size: 0.68rem;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        footer a:hover { color: var(--text); }
+
+        /* ── SCROLL REVEAL ───────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.d1 { transition-delay: 0.15s; }
+        .reveal.d2 { transition-delay: 0.30s; }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 24px 28px; }
+            .hero-content { padding: 0 28px 52px; }
+            .hero-scroll { display: none; }
+
+            .about, .books { grid-template-columns: 1fr; }
+            .about-image { min-height: 56vw; }
+            .about-text, .books-text { padding: 56px 28px; }
+            .books-image { padding: 48px 28px; }
+            .books { display: flex; flex-direction: column-reverse; }
+
+            .music, .contact { padding: 80px 28px; }
+            .groups { gap: 12px 24px; }
+            .group-item::after { display: none; }
+
+            footer { padding: 28px; flex-direction: column; gap: 14px; text-align: center; }
+        }
+
+        @media (max-width: 540px) {
+            .nav-links a:not(:last-child) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-name">JEFF MAGIDSON</a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#books">Books</a>
+            <a href="#music">Music</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Guitarist &nbsp;·&nbsp; Performer &nbsp;·&nbsp; Teacher</p>
+            <h1 class="hero-title">JEFF<br>MAGIDSON</h1>
+        </div>
+        <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <div class="about-image reveal">
+            <img src="Duo Gadjo Promo 2.jpg" alt="Jeff Magidson performing">
+        </div>
+        <div class="about-text">
+            <p class="section-label reveal">About</p>
+            <h2 class="section-heading reveal d1">A LIFE<br>IN MUSIC</h2>
+            <div class="bio reveal d2">
+                <p>A San Francisco native, Jeff Magidson was born into a family of musicians and began his musical journey on piano and drums before choosing the guitar as his primary instrument. At a young age, he developed his craft performing in local clubs.</p>
+                <p>In 1983, he spent a year in France, where he was invited to play with blues and jazz bands across Europe. He eventually settled in France and gained recognition with the group Sweet Mama. A specialist in slide and bottleneck guitar and Dobro, his style reflects influences from Muddy Waters, Roy Rogers, Ry Cooder, and Johnny Winter.</p>
+                <p>After performing as a one-man band and opening for artists such as Calvin Russell and Joe Louis Walker, he founded the band John Doe in 1994, recording three well-received blues-funk albums and appearing on FIP, France Inter, and RTL.</p>
+                <p>After returning to San Francisco, he joined the Hot Club of San Francisco and became director of a West Coast music school. He continues to perform with Duo Gadjo, The Mighty Mules, and Jeff Magidson & Robinson Street Trio.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery">
+        <div class="gallery-item reveal">
+            <img src="Mighty Mules Richmond_2022_05_06_0067.jpg" alt="The Mighty Mules">
+        </div>
+        <div class="gallery-item reveal d1">
+            <img src="Marnaz Band.JPG" alt="Jeff Magidson live">
+        </div>
+    </section>
+
+    <!-- PLAYLIST -->
+    <div class="playlist">
+        <p class="section-label reveal" style="margin-bottom: 40px;">Listen</p>
+        <iframe
+            allow="autoplay *; encrypted-media *;"
+            frameborder="0"
+            height="450"
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+            src="https://embed.music.apple.com/fr/playlist/jeff-discography/pl.u-xlyNjl2I92DYoN?l=en">
+        </iframe>
+    </div>
+
+    <!-- BOOKS -->
+    <section class="books" id="books">
+        <div class="books-text">
+            <p class="section-label reveal">Books</p>
+            <h2 class="section-heading reveal d1">GYPSY JAZZ<br>GUITAR</h2>
+            <p class="book-subtitle reveal d2">Published by Hal Leonard as part of the Guitar Method series, edited by Dave Rubin. A comprehensive guide to the style of Django Reinhardt — covering technique, repertoire, and the art of improvisation in the manouche tradition.</p>
+            <a href="https://www.halleonard.com" target="_blank" rel="noopener" class="book-btn reveal d2">Find the Book</a>
+        </div>
+        <div class="books-image reveal">
+            <img src="Gypsy jazz Book.jpg" alt="Gypsy Jazz Guitar — Hal Leonard">
+        </div>
+    </section>
+
+    <!-- MUSIC -->
+    <section class="music" id="music">
+        <p class="section-label reveal">Music</p>
+        <h2 class="section-heading reveal d1">IN PERFORMANCE</h2>
+        <div class="groups reveal d2">
+            <a class="group-item" href="https://www.duogadjo.com/" target="_blank" rel="noopener">Duo Gadjo</a>
+            <a class="group-item" href="https://www.youtube.com/watch?v=wIjNY7_PQrw&list=RDwIjNY7_PQrw&start_radio=1" target="_blank" rel="noopener">The Mighty Mules</a>
+            <a class="group-item" href="https://www.youtube.com/watch?v=vMZnDETJaxM" target="_blank" rel="noopener">Robinson Street Trio</a>
+        </div>
+        <a class="video-wrap reveal d3" href="https://www.youtube.com/watch?v=YDvWxHCLeas&t=15s" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/YDvWxHCLeas/maxresdefault.jpg" alt="Jeff Magidson in performance">
+            <div class="video-play">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="40" fill="rgba(255,255,255,0.9)"/>
+                    <polygon points="32,24 60,40 32,56" fill="#111"/>
+                </svg>
+            </div>
+        </a>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <p class="section-label reveal">Contact</p>
+        <h2 class="contact-heading reveal d1">GET IN<br>TOUCH</h2>
+        <a href="mailto:jmagmusic1@gmail.com" class="contact-btn reveal d2">jmagmusic1@gmail.com</a>
+    </section>
+
+    <!-- PORTRAIT -->
+    <div class="portrait-feature">
+        <img src="Jeff Vertical 1.jpg" alt="Jeff Magidson">
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Jeff Magidson</p>
+    </footer>
+
+    <script>
+        // Hero zoom-out on load
+        window.addEventListener('load', () => {
+            document.getElementById('heroBg').classList.add('loaded');
+        });
+
+        // Scroll reveal
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
